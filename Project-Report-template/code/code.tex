@@ -1,0 +1,28 @@
+\begin{lstlisting}[language=c]
+struct zone {
+    unsigned long watermark[NR_WMARK];
+    unsigned long lowmem_reserve[MAX_NR_ZONES];
+    struct per_cpu_pageset pageset[NR_CPUS];
+    spinlock_t lock;
+    struct free_area free_area[MAX_ORDER]
+    spinlock_t lru_lock;
+    struct zone_lru {
+        struct list_head list;
+        unsigned long nr_saved_scan;
+    } lru[NR_LRU_LISTS];
+    struct zone_reclaim_stat reclaim_stat;
+    unsigned long pages_scanned;
+    unsigned long flags;
+    atomic_long_t vm_stat[NR_VM_ZONE_STAT_ITEMS];
+    int prev_priority;
+    unsigned int inactive_ratio;
+    wait_queue_head_t *wait_table;
+    unsigned long wait_table_hash_nr_entries;
+    unsigned long wait_table_bits;
+    struct pglist_data *zone_pgdat;
+    unsigned long zone_start_pfn;
+    unsigned long spanned_pages;
+    unsigned long present_pages;
+    const char *name;
+};
+\end{lstlisting}

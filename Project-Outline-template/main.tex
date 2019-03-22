@@ -1,0 +1,177 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[english]{babel}
+\usepackage{varwidth}
+
+
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+
+\usepackage{pgfgantt}
+% 1. Fill in these details
+\def \CapstoneTeamName{		Pavement Prometheus}
+\def \CapstoneTeamNumber{		9}
+\def \GroupMemberOne{		Stephanie Allison Hughes }
+\def \CapstoneProjectName{		Pedestrian Counting and Privacy Preservation}
+\def \CapstoneSponsorCompany{	Oregon State University}
+\def \CapstoneSponsorPerson{		Dr. Fuxin Li}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{		%Problem Statement
+				Pedestrian Counting and Privacy Preservation
+				%Technology Review
+				%Design Document
+				%Progress Report
+				}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+\renewcommand{\NameSigPair}[1]{#1}
+\usepackage{etoolbox}
+\patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagenumbering{arabic}
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+\centering
+\textbf{\Huge\CapstoneProjectName}\par
+\raggedright
+% 8. now you write!
+\section{Introduction}
+The software described in this document, Facial Detector and Obfuscator, is a project under the advisement of Chanho Kim (Georgia Tech) and Dr. Fuxin Li (Oregon State University). The client for this project is the City of Portland, which wants a proof of concept for a way to transform the data from their traffic cameras so the city may store the data without storing identifying information about the citizens in the footage. The software will be based largely on YOLOv3 \cite{YOLOv3}. Our team will design a pedestrian/vehicle detection model which is able to obfuscate all identifying features of pedestrians and vehicles for a given video feed. This will allow for storage of the video data without storing identifying information on the pedestrians.
+
+
+\section{Business Needs/Requirements}
+In the hopes that our group can deliver tangible traffic efficiency suggestions to the city of Portland, the project will be evaluated in multiple stages with major requirements focused on accuracy of identification and privacy coverage of pedestrians. The first area of the project actively measured is the accuracy of the program’s ability to recognize pedestrians. Ensuring a high accuracy in pedestrian identification is important since the data can affect the level of safety that can be achieved through new changes in pedestrian traffic flow. Another important measured aspect is the level of privacy coverage citizens feel the program has. This measurement will be gauged against public opinion polls on privacy concerns of pedestrians. Based on the responses of the people surveyed, our group will develop the software to maintain that level of privacy. Each level of privacy will have a certain amount of hiding of one's identity. People will be surveyed throughout the build cycle so that our group will design the software with the customers needs always in mind. Consistent feedback and evaluation of privacy standards should meet the pedestrian’s expectations by the time we have a final working prototype. The program should also be efficient enough to be used with the amount of processing power the street light provides. Through the accuracy checks, privacy checks, and efficiency checks, our group hopes to have a deliverable solution that provides suggestions for areas of traffic that need to be altered to optimize traffic safety.
+\section{Scope and Limitations}
+The scope for this project is immediately to have a system that results in information on pedestrian movements that can be stored for open access by the public. An update that is not necessary, but is desirable, is the ability to provide data on traffic as well. The main limitation for this project is the processing power on the edge (e.g. the processing power on the cameras). This will dictate the amount of frames per second of footage that we can analyze and store.
+
+
+\section{Product/Solution Overview}
+\begin{varwidth}[t]{.5\textwidth}
+\subsection{Need}
+\begin{itemize}
+    \item Privacy
+        \begin{itemize}
+            \item Detect pedestrian
+            \item Detect faces
+            \item Obfuscate faces
+        \end{itemize}
+    \item Public Opinion
+        \begin{itemize}
+            \item Polling
+            \item Form of obfuscation
+            \item Analysis of data
+        \end{itemize}
+\end{itemize}
+\end{varwidth}% <---- Don't forget this %
+\hspace{4em}% <---- Don't forget this %
+\begin{varwidth}[t]{.5\textwidth}
+\subsection{Want (Goals Further-On)}
+\begin{itemize}
+    \item Analysis (implementation-of-system oriented)
+        \begin{itemize}
+            \item Detect and obfuscate other objects
+            \item Segmentation \cite{mask}
+            \item Analyze obfuscated data and retrieving analysis as JSON via an API has to be part of the product
+        \end{itemize}
+    \item Enhancement (research oriented)
+        \begin{itemize}
+            \item Objects tracking \cite{kim}
+            \item Optimize algorithm
+            \item Track an object through multiple cameras \cite{multi}
+        \end{itemize}
+\end{itemize}
+\end{varwidth}
+
+\section{Design Timeline}
+
+\begin{frame}\\
+\begin{ganttchart}[
+    today=11,
+    today rule/.style= {blue, thick},
+    x unit=0.43cm,
+    y unit title=0.5cm,
+    y unit chart=0.43cm,
+    title label font=\tiny,
+    bar label font=\tiny,
+    group label font=\tiny\bfseries,
+    milestone label font=\tiny\itshape,
+    bar/.append style={fill=blue!40},
+    vgrid, hgrid]{1}{36}
+    \gantttitle{2018}{12}
+    \gantttitle{2019}{24} \\
+    \gantttitle{October}{4}
+    \gantttitle{November}{4}
+    \gantttitle{December}{4}
+    \gantttitle{January}{4}
+    \gantttitle{February}{4}
+    \gantttitle{March}{4}
+    \gantttitle{April}{4} 
+    \gantttitle{May}{4}
+    \gantttitle{June}{4} \\
+    
+    \ganttbar{\textbf{Fall Term}}{2}{9} \\
+    
+    \ganttset{bar/.append style={fill=blue!10}}
+    \ganttbar{\textit{Problem Statement}}{2}{3} \\
+    \ganttbar{\textit{Requirement Document}}{2}{5} \\
+    \ganttbar{\textit{Tech Review}}{3}{7} \\
+    \ganttbar{\textit{Design Document}}{5}{8} \\
+    \ganttbar{\textit{Progress Report}}{9}{9} \\
+    
+    \ganttset{bar/.append style={fill=yellow!10}}
+    \ganttbar{\textit{Live Demo and Presentation}}{6}{9} \\
+    
+    \ganttset{bar/.append style={fill=blue!40}}
+    \ganttbar{\textbf{Winter Term}}{14}{22} \\
+    
+    \ganttset{bar/.append style={fill=red!20}}
+    \ganttbar{\textit{Alpha Level Release}}{11}{18} \\
+    
+    \ganttset{bar/.append style={fill=red!5}}
+    \ganttbar{\textit{Build Real-time Object Detection Model}}{11}{14} \\
+    \ganttbar{\textit{Build Face Decetion Model}}{14}{17} \\
+    \ganttbar{\textit{Build Multi-object Tracking}}{11}{17} \\
+    
+    \ganttset{bar/.append style={fill=green!20}}
+    \ganttbar{\textit{Beta Level Release}}{19}{22} \\
+    
+    \ganttset{bar/.append style={fill=green!5}}
+    \ganttbar{\textit{Models Development}}{19}{21} \\
+    \ganttbar{\textit{Data Analysis}}{19}{21} \\
+    
+    \ganttset{bar/.append style={fill=blue!40}}
+    \ganttbar{\textbf{Spring Term}}{24}{34} \\
+    
+    \ganttset{bar/.append style={fill=blue!20}}
+    \ganttbar{\textit{1.0 Level Release}}{23}{31} \\
+    \ganttset{bar/.append style={fill=blue!5}}
+    \ganttbar{\textit{Adding Web Features}}{23}{31} \\
+    \ganttset{bar/.append style={fill=blue!10}}
+    \ganttbar{\textit{Final Report}}{32}{34}
+    
+    % pointers
+    \ganttlink{elem8}{elem12}
+    \ganttlink{elem9}{elem10}
+    \ganttlink{elem11}{elem14}
+    \ganttlink{elem12}{elem16}
+\end{ganttchart}
+\end{frame}
+\section{References}
+\let\oldaddcontentsline\addcontentsline% Store \addcontentsline
+\renewcommand{\addcontentsline}[3]{}% Make \addcontentsline a no-op
+\bibliographystyle{IEEEtran}  
+\bibliography{sources}
+\let\addcontentsline\oldaddcontentsline% Restore
+
+\end{document}

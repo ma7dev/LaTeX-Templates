@@ -1,0 +1,189 @@
+\chapter{Requirements Document}
+
+The City of Portland is updating their data gathering system to better integrate data and technology into the decisions made by the city. One issue that arises is that privacy preservation is often at odds with data gathering. Our task is to provide data on, and hopefully a solution to, this issue. Mainly our concern is manipulation of data so the collected data can be stored and analyzed without violating privacy portions of the city's social contract. Our solution uses YOLOv3 and masking to remove identifying information about the citizens in the videos.
+
+\section{Introduction}
+
+The software described in this document, Facial Detector and Obfuscator, is a project under the advisement of Chanho Kim (Georgia Tech) and Dr. Fuxin Li (Oregon State University). The client for this project is the City of Portland, which wants a proof of concept for a way to transform the data from their traffic cameras so the city may store the data without storing identifying information about the citizens in the footage. The software will be based largely on \textit{YOLOv3} \cite{YOLOv3}.
+
+\subsection{System Purpose}
+
+Our team will design a pedestrian/vehicle detection model which is able to obfuscate all identifying features of pedestrians and vehicles for a given video feed. This will allow for storage of the video data without storing identifying information on the pedestrians.
+
+\subsection{System Scope}
+
+The scope for this project isimmediately to have a system that results in information on pedestrian movements that can be stored for open access by the public. An update that is not necessary, but is desirable, is the ability to provide data on traffic as well.
+
+\subsection{Definitions}
+
+\begin{center}
+  \begin{tabular}{ | l | p{10cm} | } 
+    \hline \textbf{Term} & \textbf{Definition} \\ \hline
+    \textbf{Car Learning to Act (CARLA)} & An open simulator for urban driving. CARLA has been developed from the ground up to support training, prototyping, and validation of autonomous driving models, including both perception and control \cite{Carla}. \\ \hline 
+    \textbf{Convolutional Neural Network (CNN)} & A class of deep, feed-forward artificial neural networks, most commonly applied to analyzing visual imagery \cite{CNN2}. \\ \hline
+    \textbf{Facial Keypoints Detection} & Facial detection through the use of multiple key points on a person’s face \cite{VGGFace2}. \\ \hline
+    \textbf{mean Average Precision (mAP)} & The mean for a metric denoting percentage of objects precisely identified, a ubiquitous standard used by object detection models \cite{YOLOv3}. \\ \hline
+    \textbf{Obfuscation and Mangling} & Used interchangeably. The irreparable destruction of data. Specifically used in relation to identifying features of objects. \\ \hline
+    \textbf{VGGFace2} & A large-scale face recognition dataset \cite{VGGFace2}. \\ \hline
+    \textbf{You Only Look Once (YOLOv3)} & A state of the art object detection model which can classify objects with a high degree of fidelity in a time sensitive environment \cite{YOLOv3}. \\ \hline
+  \end{tabular}
+\end{center}
+
+\section{Dataset}
+
+\subsection{Description}
+
+Our team will generate a dataset for the pedestrian detection algorithm using Car Learning in Act (CARLA) \cite{Carla}. This entails gathering datasets for face detection algorithm from VGGFace2 \cite{VGGFace2} and applying data pre-processing to clean the data of unwanted noises.
+
+\subsection{User Stories}
+
+\textbf{Generate Pedestrians Dataset} \\
+As a developer, I want to generate a dataset, using CARLA, of pedestrians so I can train the pedestrian detection algorithm.
+\\
+\textbf{Gather Faces Dataset} \\
+As a developer, I want to collect a dataset from VGGFace2 to train the face detection algorithm.
+\\
+\textbf{Data Pre-processing} \\
+As a developer, I want the data to be clean to suppress unwanted distortions or enhance some image features important to further processing.
+
+
+\section{Pedestrian Detection}
+
+\subsection{Description}
+
+Our team will employ the You Only Look Once (YOLOv3) \cite{YOLOv3} object detection model for identifying pedestrians. By employing this model we will aim to balance mean Average Precision (mAP) with the processing speed necessary to be effective in a real time detection environment.
+
+\section{User Stories}
+
+\textbf{Setup the Configuration of YOLOv3}
+\\
+As a developer, I want to configure the \textit{YOLOv3} convolutional network layers, confidence thresholds, input and output pipelines, so that I can begin feeding data to the model to begin training.
+\\
+\textbf{Training Model}
+\\
+As a developer, I want to use the selected (and labeled) data set to train \textit{YOLOv3}. This will be a reiterative process as I interpret the output and discover how best to balance the mAP of the object detection model with processing speed.
+\\
+\textbf{Adapting Dataset}
+\\
+As a developer, I want to select a data set to train \textit{YOLOv3}. This data set will need to be properly labeled and adapted to be fed into the object detection model.
+\\
+\textbf{Deploying Model}
+\\
+As a developer, I want to deploy the adequately trained \textit{YOLOv3} object detection model.
+\\
+\textbf{Storing Data}
+\\
+As a city official, I want the resulting data to be useful for open machine learning for the public. 
+
+
+\section{Face Detection and Obfuscation}
+
+\subsection{Description}
+
+Our team will train a convolutional neural network (CNN) with Facial Keypoints Detection to find pedestrian faces using the \textit{VGGFace2} dataset. By having a threshold of the number of key points detected, we will then label that area as a detected face. Our team will finally apply an obfuscation technique to remove identifying information of the face from the data.
+
+\subsection{User Stories}
+
+\textbf{Determine Facial Keypoints} \\
+As a developer, I want to determine facial keypoints that will be used so that I can have a set group of points to focus on within the \textit{VGGFace2} data.
+\\
+\textbf{Create a Simple Neural Network} 
+\\
+As a developer, I want to create a simple neural network so that I have a base model to build my program off of.
+\\
+\textbf{Form Convolutional Neural Network}
+\\
+As a developer, I want to form a convolutional neural network so that I can better analyze the dataset.
+\\
+\textbf{Train Convolutional Neural Network}
+\\
+As a developer, I want to train my \textit{CNN}s so that I can use the facial keypoints to train the program to detect other faces than the ones tested with.
+\\
+\textbf{Data Removal}
+\\
+As a city official, I want the tool to destroy personally identifiable information from the data in an irreparable manner. 
+
+\section{Survey}
+
+\subsection{Description}
+
+Our team will perform data collection through polling and surveys to ascertain public opinion on privacy. This is specifically in relation to the facial obfuscation/mangling our system will implement. We will judge the correctness of our system using our analysis of this data as a key marker.  
+
+\subsection{User Stories}
+
+\textbf{Query the General Public} 
+\\
+As a city official, I want a baseline of data that any inferences can be checked against. This data should come from a breadth of people.
+\\
+\textbf{Options of Obfuscation} 
+\\
+As a developer, I want the queries to relate to ways of obfuscating personally identifiable data so I can concretely know what method to use. 
+\\
+\textbf{Simple But Comprehensive Results} 
+\\
+As a city official, I want questions that are not open ended to draw quick conclusions from. Questions should be varied, but relevant. 
+\\
+\textbf{Unbiased Tests} 
+\\
+As a participant, I want polls and surveys that don't misrepresent my feelings or push me to answer in a way inconsistent with my views on the issue.
+
+\section{Timeline}
+
+\begin{frame}\\
+\begin{ganttchart}[
+    today=4,
+    today rule/.style= {blue, thick},
+    x unit=0.43cm,
+    y unit title=0.5cm,
+    y unit chart=0.43cm,
+    title label font=\tiny,
+    bar label font=\tiny,
+    group label font=\tiny\bfseries,
+    milestone label font=\tiny\itshape,
+    bar/.append style={fill=blue!40},
+    vgrid, hgrid]{1}{36}
+    \gantttitle{2018}{12}
+    \gantttitle{2019}{24} \\
+    \gantttitle{October}{4}
+    \gantttitle{November}{4}
+    \gantttitle{December}{4}
+    \gantttitle{January}{4}
+    \gantttitle{February}{4}
+    \gantttitle{March}{4}
+    \gantttitle{April}{4} 
+    \gantttitle{May}{4}
+    \gantttitle{June}{4} \\
+    
+    \ganttbar{\textbf{Fall Term}}{2}{10} \\
+    
+    \ganttset{bar/.append style={fill=blue!10}}
+    \ganttbar{\textit{Requirement Document}}{2}{5} \\
+    \ganttbar{\textit{Tech Design}}{3}{7} \\
+    \ganttbar{\textit{Design Document}}{5}{9} \\
+    \ganttbar{\textit{Progress Report}}{9}{10} \\
+    
+    \ganttset{bar/.append style={fill=yellow!10}}
+    \ganttbar{\textit{Live Demo and Presentation}}{2}{10} \\
+    
+    \ganttset{bar/.append style={fill=blue!40}}
+    \ganttbar{\textbf{Winter Term}}{14}{22} \\
+    
+    \ganttset{bar/.append style={fill=red!20}}
+    \ganttbar{\textit{Alpha Level Release}}{11}{18} \\
+    \ganttset{bar/.append style={fill=green!20}}
+    \ganttbar{\textit{Beta Level Release}}{19}{22} \\
+    
+    \ganttset{bar/.append style={fill=blue!40}}
+    \ganttbar{\textbf{Spring Term}}{24}{34} \\
+    
+    \ganttset{bar/.append style={fill=blue!20}}
+    \ganttbar{\textit{1.0 Level Release}}{23}{31} \\
+    \ganttset{bar/.append style={fill=blue!10}}
+    \ganttbar{\textit{Final Report}}{32}{34}
+    
+    % pointers
+    \ganttlink{elem7}{elem8}
+    \ganttlink{elem8}{elem10}
+    \ganttlink{elem10}{elem11}
+\end{ganttchart}
+\end{frame}

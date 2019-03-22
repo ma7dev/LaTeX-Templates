@@ -1,0 +1,132 @@
+%TODO:
+\chapter{Progress Report}
+The City of Portland is attempting to gather data on traffic patterns to increase pedestrian and driver safety and to create an open-source data-set on the topic. The Pedestrian Counting and Privacy Preservation project aids this goal by allowing the city to store video and photo information without storing identifying information about the people in the data. Serving as an archive of the steps and plans for Pavement Prometheus’ project, the following document provides an overview of the project's past, current state, and goals for the future. The document will also cover the overarching design for the project and the problems that the team had encountered over a three-month time-frame. 
+\section{Introduction}
+\subsection{The Problem}
+% Ian
+The City of Portland has partnered with companies such as AT\&T as part of the Smart City PDX initiative. The goal of the project is to use technology to better the lives of the city's citizens, specifically helping bridge the technological divide and help under-served communities. One aspect of the initiative is to use traffic and roadside cameras to develop open-source data-sets for the community to use for individual projects and for the city to use to collect data on traffic and pedestrian patterns. The data will be used to inform legislative and construction decisions as well as traffic decisions including traffic-light timing. The main problem that the city has run into is in storing the data. Currently, the data captured by the cameras has identifying information on people pictured in the media and, as a result, can not be stored for further analysis or use. The Pedestrian Counting and Privacy Preservation project primarily serves to fix this problem by stripping the incoming data of personally identifiable information so that it can be stored and further analyzed.
+
+\subsection{Design}
+% Miles
+Our project has been split into four different components that will each be worked on individually and combined to form an overarching solution to privacy preservation in the face of data collection. The first component will be a real-time object detection system which, as its name entails, will involve detecting objects in real-time from a given camera feed. For the purposes of this project we will be primarily interested in identifying both vehicles and pedestrians. The second component will be face detection, which will both serve to reinforce the accuracy of the object detection in identifying pedestrians, but will also be vitally important in obfuscation and masking for privacy preservation. Our third component will involve an object tracking system, which will primarily serve a purpose for extracting interesting metrics in serving the data collection aspect of this project. Our object tracking system will also help ensure accuracy for such things as aggregate data counts, as real-time object detection detects objects on a frame-by-frame basis and has no awareness of identifying a unique object between frames. Finally, we will have a data analysis and access component that will ultimately involve an online API for both storing and accessing the data collected to a database owned by the City of Portland.
+
+\subsection{Goals}
+% Stephanie
+The goals of our project are to develop a program to detect pedestrians, deliver data in a JSON format to the City of Portland, and develop a research paper based on our findings. When it comes to pedestrian detection, we hope to train a convolutional neural network to detect the bodies and faces of pedestrians in real-time. The results of this program will be analyzed and validated so pedestrians are detected at at least a 70 percent accuracy. Along with the face detection, the program will obscure the faces of those pedestrians so their identity is not compromised. 
+
+Our next goal is to deliver the pedestrian detection data in the form of a JSON file to the City of Portland. Our group will create an API that can be used to output pedestrian data from our program in a JSON format. This will allow developers for the City of Portland to easily access and use the data from our program. The last goal is to devise research paper focusing on pedestrian privacy and detection. Our group will investigate pedestrians’ preferred level of privacy for detection and base the development of our program on those preferences. Our research will focus on the detection of pedestrians while ensuring the privacy of one’s identity through obscuring their faces. Our group will work to fulfill the desires of the general public while keeping as much data as possible so it can be used for future analysis. 
+
+\section{Plans}
+\subsection{Object Detection}
+% Miles
+Real-time object detection will be the first stage of analysis performed on a provided camera feed. This portion of the project is designed to implement an algorithm which can detect classes of objects in a timely manner which can then be fed to other subsystems, like face detection and object tracking, for further analysis. To reach this objective, we will be implementing the You Only Look Once object detection algorithm on a PyTorch deep learning framework, our choices being predicated on both speed and accuracy of a given object detection algorithm, and on the utility of a deep learning framework. While we are still looking for potential datasets to train our model against, we will likely use CARLA (an open source vehicle and pedestrian simulator which labels objects recorded automatically) to initially produce footage for training and later validating our model. We also have some interest in tweaking the YOLO object detection algorithm to potentially improve accuracy and speed, possible solutions including reducing object classes recognized.
+
+\subsubsection{Face Detection/Obfuscation}
+% Stephanie
+Face detection will be used to detect the faces of pedestrians using a feature-based method so their identities can be protected. Our group will develop a program to train a convolutional neural network to detect the facial features of a pedestrian. We decided to implement a feature-based method as it allows for faces to be detected easily from different perspectives and environments. While we detect the full bodies of pedestrians for motion and location data, the faces are detected for privacy matters. A human face is the most highly identifying part of a person, so our group detects it to be obscured. Through obscuring the face, all vital pedestrian data is recorded except for the pedestrian’s distinctive features. Our project goal is to research the detection of pedestrians while ensuring privacy protection, so face detection allows us to accomplish this.
+
+\subsection{Data Analysis}
+% Ian
+A large portion of the data that the project will aggregate will be in a pure format e.g. the number of vehicles in a frame, their speed and trajectory, what lanes of highway contain the most traffic. This information, including the raw photographic and video data, is useful for constructing data sets, but is less useful for providing answers to decision problems. Analysis of the amassed information will be essential in providing concrete advisement to the city.  
+The data will be analyzed using a mixture of comparative, statistical,  traffic  theory  based,  and  neural  network  algorithms with the goal of providing information concerning traffic flow suggestions and traffic incidents. 
+Analyzed data will be made accessible through a web interface. The interface will serve data in a JSON format including geographic and chronological markers for the data.
+
+\section{Problems}
+\subsubsection{General Datasets}
+% Stephanie
+Our group had multiple obstacles in our search to determine the best dataset to use for our project. First, we had to determine which format of data would work the best to serve all our needs, yet there seemed to be issues with each option. The City of Portland provided video feeds of different streets around Portland to take images from, but the image quality was poor and the live feed was too fragmented. Our group then looked into using a well-known, large dataset of faces to train our model, but just having that data would still lead to a lot of work. While our group would have a variety of face data to work with, we would need to individually label each pedestrian in an image. Finally, we investigated using a simulated environment to train our program with, but the software would need to be installed on the OSU server. 
+
+\subsubsection{CARLA Datasets}
+% Ian
+CARLA is a system for supporting the training and validation of  autonomous driving systems. The great draws to CARLA are that the data created is a fair representation of traffic and pedestrian movement including pre-labeling of objects and the freedom that the system affords. Our team hopes to use the system to help train our project.
+One problem that the team ran into while using the CARLA system is that since the purpose of CARLA is for autonomous driving, the camera was meant to be situated in a car. Moving the camera to a stationary position broke much of the usability of CARLA, including removing segmentation for cars and pedestrians, and causing the system to pause. 
+For a decent amount of time, the automated pathing systems used for determining the trajectory and interaction between agents in the CARLA system was irregular and caused cars to crash unexpectedly, and pedestrians to walk into walls continuously and clash with each other in crowded situations. This could have unforeseen effects on the finished system as CARLA data would form the base for our training.
+
+\subsection{Goals}
+% Miles
+The outline of our project as initially described was that we would be working with hardware provided by General Electrics and Intel for the Smart City PDX initiative in Portland, where both companies had provided a cumulative total of 200 sensors along four of the city’s busies traffic avenues. Because of Portland’s privacy concerns, storing unadulterated video footage from the cameras was not allowed, and so they required a method to extract interesting information from the footage while simultaneously not compromising any personal information. After our first meeting with the City however, we discovered that GE and Intel had sole control over the footage recorded by these cameras, and that gaining access to that hardware would likely be impossible as nothing in their contract with the city stipulated shared use. This apparently inspired, in part, by the city’s reluctance to handle any details which might violate the privacy of its citizens. Instead we have access to somewhat more basic cameras which refresh an image once every three minutes, from which the city is only interested in our ability to detect vehicles.
+
+\section{Solutions}
+\subsection{Datasets}
+\subsubsection{General}
+% Stephanie
+To tackle our issues involving determining the best dataset to use, our group focused in on what we really needed. Our group developed criteria for narrowing down the dataset forms based on accuracy, ease of use, and labor intensity. By comparing and contrasting our options along with discussions with our mentor, we determined to use the simulation software called CARLA. If we used the video data provided by the City of Portland, the low quality of the footage may decrease the accuracy of detection. Our group would need to individually screenshot many frames of the video and label pedestrians one-by-one, making data collection difficult and time consuming. This setup would not allow us to send the City of Portland a program that could be easily developed by others in the future. Similar obstacles are faced when using the large face dataset to work with as people will still need to be individually labelled within images. This narrowed our debate down to the simulated environment as the software has people pre-labelled and has clear resolution. This makes training and development with the simulation to be accurate, simple to use, and low intensity, meeting all of our requirements. By setting clear criteria, talking with mentors, and comparing practicality, our group was able to overcome our obstacles to determine the best dataset.
+
+\subsubsection{Carla}
+% Ian
+The problems identified with the CARLA training and verification system have been noticed by the development team and a patch that addresses the issues is currently being worked on. This leaves our team in a position reliant on the CARLA development team. In the situation that the CARLA team does not address the issues in a timely manner, our team will need to find a separate data-set generator, or use a static data-set for training our neural networks. 
+
+\subsection{Goals}
+% Miles
+Given the obvious discrepancy from the initial goals of our primary client, Dr. Li, and the requested objective from the City of Portland, we have had somewhat of a need to rectify the difference. As it currently stands we plan on meeting all of Portland’s requested objectives, presenting a demo at the beginning of this December, in the hopes that they’ll be able to expand the scope of their requested project. With some potential coming from other companies looking to do business with Portland who might provide access to better camera hardware then what is currently available. Barring that, however, Dr. Li still wishes to meet our initial goals of devising a system that can detect and obfuscate personally identifying information from a camera feed in real time. As the project would serve as both an excellent learning opportunity and be of immediate use to any city interested in preserving privacy while taking advantage of large scale data collection operations.
+
+\section{Weekly Summary}
+\subsection{Week 1}
+The first week of our senior capstone class covered the production of a resume for the purposes of future employment. The class also had us write a fictional autobiography regarding what route we’d like to take through our lives; putting us in a mindset that had us planning for the future. Otherwise this week was mostly introductory material for how the course would proceed.
+
+\subsection{Week 2}
+The second week of our senior capstone class we had to choose a project to get involved with. Selection involved reading through a list of potential project details and selecting, in ranked order, our top ten preferences. We would then select a project that we explicitly did not want to be a part of, so that it would be removed from the list of potential candidates. Lectures consisted of working on voice tone in constructing emails to be sent to your client.
+
+\subsection{Week 3}
+The third week we were able to discover which team we had been assigned to, in our case the Pedestrian Counting and Privacy Preservation project. We were able to meet up with our client, Dr. Fuxin Li, who in turn imparted us the goals for this project and how it tied into the Portland Smart City PDX initiative. While the entire team was enthusiastic about the project some of us weren’t that familiar with Machine Learning, presenting an important subject to learn over the course of the quarter. Ian this week setup a github repository with a Kanban board with defined program flow and work goals, while Maze took the initiative to become our point of contact with the professor.
+
+\subsection{Week 4}
+This week my our team made progress on getting the Github working, met with the T.A and planned out our project through the group problem statement. For the joint Github, each member practiced accessing the shared repository and uploaded our latex files to the Documents folder. We also added the kanban board extension to the Github in order to plot out the progress of our tasks. This week my group also met with the T.A. in the Kelley Engineering Center, discussing our progress and learning about the layout of the T.A. meetings. Along with this, my group worked through the group Problem Statement, which allowed us to all get on the same page for the problem, plan, and solution that we’re going towards. 
+
+\subsection{Week 5}
+This week our was able to meet with the T.A. and our client Dr.Li to go over the Requirements Document and get greater clarification on our project outline. In our meeting with our T.A., we were able to get important feedback on our Problem Statement to understand where we can improve on future papers. We also were able to go through examples of the Requirements Document from previous years so we could have a better understanding of the layout of the document. Our group worked to setup our project with the right connections by emailing Kevin McGrath about available GPUs, Dr. Bailey to schedule a meeting for the next week, and Mr. Kim to schedule a weekly meeting time. We also met with our client Dr.Li and met his other graduate student doing research under him. We talked to them about the requirements for our project and got good insight as to the software we could work with. The meeting allowed us to align our program goals and resources to those that our clients had researched with in the past in order to track our progress.
+
+\subsection{Week 6}
+This week our team met with our Dr. Fuxin Li and City of Portland Representative to discuss about the project goals. Our team encountered a difference in direction and project outline from our team's initial understanding with the City of Portland’s desires. Going into the meeting with the City of Portland representative, our team believed that they were looking for a program that would focus more purely on pedestrian movements and that their highest priority was to protect the privacy of the pedestrians. Coming out of the meeting we learned that the representative is looking to detect vehicles as well and make more of the program’s focus to be on high accuracy, with privacy as an added benefit. Due to this, our team met up after the meeting and fully wrote out our outline for the project with the desires of the City of Portland in mind and I believe we are now all on the same page. In addition, we have meet with Chanho Kim to discuss about our issues with our attempt to extract useful samples for CARLA to be used in later in training.
+
+\subsection{Week 7}
+This week our team met with our grading TA Richard to discuss the formatting of the final technology review document along with the next design paper coming up. In addition, we also video-chatted our mentor Chanho to discuss future steps to get data to be used to train a CNN including the CARLA simulator. Based on the advice from our mentor we will continue to explore different sources for our data other than the current simulation we have been looking at. Moreover, our team went through our technical review documents and further discussed each person’s role within the team. We met up and went through each of our documents to understand other team members’ perspective of their work and see how each of our contributions comes together with the full project.
+
+\subsection{Week 8}
+This week our team met with our grading TA Richard to discuss the upcoming Design Document. Our team began work on an online course on machine learning provided through Facebook to help better our understanding of the tools used for our project and to know how the tools interact. One problem that we ran into occurred when one team team member downloaded a large data-set, but while trying to overclock his processor, he accidentally crashed his operating system. The crash caused a loss of the data set, but didn't cause irreparable damage to the project. We ended the week by starting work on a demo for our clients.
+
+\subsection{Week 9}
+This week our team member, Mazen, finished his work on a demo by applying YOLO to a couple of traffic videos he downloaded from YouTube as well as photos downloaded from the ODOT and City of Portland web-pages. One issue that our team found was that the partitioning of roles for the project had become more difficult than we originally expected with overlaps being common. We created final roles where every team member would have a role that aligned with their interests and had a reasonable amount of work relating to it. The issue relating to the CARLA system persisted into this week.  
+
+\subsection{Week 10}
+This week our team worked on the progress report document and presentation. The progress report required our team to distill project and the past ten weeks into a single information sink. Our team also began outlining the data-analysis portion of our project including how we will implement the system and what its concrete goals are. 
+
+\section{Retrospective}
+\begin{center}
+{
+ \begin{tabular}{|l|p{0.3\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}|}
+ \hline
+ Week & Positives & Deltas & Actions\\
+ \hline
+ 1 & Covered introductory material for the senior capstone class.& Do not yet know what project to apply for.& Completed resume and fictional autobiography to help career preparation. \\
+ \hline
+ 2 & Capstone class lecture covered the importance of voice tone, and how best to go about addressing your client in a professional setting.& There is uncertainty about which project we will ultimately be assigned to.& We picked which projects we wished to apply for in the upcoming year. \\
+ \hline
+ 3 & Our team discovered we had been assigned to the Pedestrian Counting and Privacy Preservation project.& We need to organize a meeting time with our client to discuss the specifications and particulars about the project.& Met with our team, exchanged contact information and decided on what meetup times would work best for us. \\
+ \hline
+ 4 & Team set up the foundations of our project by creating a shared Github repo for our work. Went through project purpose of project to be better aligned on our project goals.& Do not have proper equipment to run Computer Vision model so will need to contact teacher to gain proper resources.& Conducted meeting to go over Problem Statement document to allow for everyone to be on the same page for the project outline. \\
+ \hline
+ 5 & Team worked with our client to communicate clear project outline and requirements. Received helpful feedback from T.A. to improve future papers and worked with Dr.Li's graduate student to get advice for our project's technology.& All members still trying to fully understand project implementation and will need to do further research. While we are clear on our goal, we realized the way to get there is still being determined.& Held meeting with our client to discuss project feasibility along with meeting with his graduate student to get advice. Researched into possible software and approaches to accomplishing our project's needs. \\
+ \hline
+ 6 & Team met with all clients to discuss about the the project direction and final goal.& Team needed to communicate more with the main client to understand the final goal more.& Have a shared Google Doc with Dr. Li and Dr. Dominguez to be reviewed every even week.  \\
+ \hline
+ 7 & Team started working on build YOLOv3 and setting up CARLA.& All team members should contribute on doing something to balance work.& Follow Agile method to separate tasks and have Agile goals for the entire team to contribute to.\\
+ \hline
+ 8 & Team began work on Facebook's machine learning class. Gained better understanding of data models and training sets including the ODOT data from traffic cameras.& Team needed to better understand the separation of duties and the distribution of expertise. & Have a team meeting in which we partition the goals between the members. \\
+ \hline
+ \end{tabular}
+}
+\end{center}
+\begin{center}
+{
+ \begin{tabular}{|l|p{0.3\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}|}
+ \hline
+ 9 & Finished work on a demo showing that YOLO is working and is performing as expected on video and still images. & Team needed to better understand the goal of the data analysis portion of the project. CARLA was still not completely working. & Ian was tasked with understanding and creating goals and methods for the data analysis system. \\
+ \hline
+ 10 & Team finalized the goals for the project and began work on the progress report document. & CARLA issues persisted into this week. & Team will contact the CARLA development team to find out where the patches are in progress. \\
+ \hline
+ \end{tabular}
+}
+\end{center}
+\section{Conclusion}
+In Conclusion, our group hopes to implement a program that can aid the City of Portland in their work to increase pedestrian safety. Under the guidance of our mentor Dr. Fuxin Li, our team has made clear progress this term to setup the foundation of our project. The outline of our project is to detect pedestrians through object and face detection, obscure pedestrians’ identities, and perform data analysis. This allows pedestrian traffic to be tracked while ensuring privacy protection, enabling better city planning efforts in the future. Pedestrian safety is a growing concern with increasing vehicle traffic and privacy becoming an issue with public cameras involved. Our project covers both needs through developing a program that will gather all possible traffic information while obscuring any identifying pedestrian information. Through our research, we hope to pave the way for greater safety and privacy for the people of Portland. 

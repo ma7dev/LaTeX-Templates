@@ -1,0 +1,10 @@
+\Procedure{FunctionName}{}
+\State $sortedList = Sort(v)$ 
+\State $visited = \empty$
+\For{\textbf{$v_i$}  \textbf{ $\in$ } $sortedList$}
+    \If {$v_i\ \not \in visited$}
+        \State $min = BFS(v)$
+        \State $visited.append(BFS(v))$
+    \EndIf
+\EndFor
+\EndProcedure

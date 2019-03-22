@@ -1,0 +1,69 @@
+\documentclass[convert]{standalone}
+
+
+\usepackage{pgfgantt}
+\usepackage{etoolbox}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\\
+\begin{frame}\\
+\begin{ganttchart}[
+    today=4,
+    today rule/.style= {blue, thick},
+    x unit=0.43cm,
+    y unit title=0.5cm,
+    y unit chart=0.43cm,
+    title label font=\tiny,
+    bar label font=\tiny,
+    group label font=\tiny\bfseries,
+    milestone label font=\tiny\itshape,
+    bar/.append style={fill=blue!40},
+    vgrid, hgrid]{1}{36}
+    \gantttitle{2018}{12}
+    \gantttitle{2019}{24} \\
+    \gantttitle{October}{4}
+    \gantttitle{November}{4}
+    \gantttitle{December}{4}
+    \gantttitle{January}{4}
+    \gantttitle{February}{4}
+    \gantttitle{March}{4}
+    \gantttitle{April}{4} 
+    \gantttitle{May}{4}
+    \gantttitle{June}{4} \\
+    
+    \ganttbar{\textbf{Fall Term}}{2}{10} \\
+    
+    \ganttset{bar/.append style={fill=blue!10}}
+    \ganttbar{\textit{Requirement Document}}{2}{5} \\
+    \ganttbar{\textit{Tech Design}}{3}{7} \\
+    \ganttbar{\textit{Design Document}}{5}{9} \\
+    \ganttbar{\textit{Progress Report}}{9}{10} \\
+    
+    \ganttset{bar/.append style={fill=yellow!10}}
+    \ganttbar{\textit{Live Demo and Presentation}}{2}{10} \\
+    
+    \ganttset{bar/.append style={fill=blue!40}}
+    \ganttbar{\textbf{Winter Term}}{14}{22} \\
+    
+    \ganttset{bar/.append style={fill=red!20}}
+    \ganttbar{\textit{Alpha Level Release}}{11}{18} \\
+    \ganttset{bar/.append style={fill=green!20}}
+    \ganttbar{\textit{Beta Level Release}}{19}{22} \\
+    
+    \ganttset{bar/.append style={fill=blue!40}}
+    \ganttbar{\textbf{Spring Term}}{24}{34} \\
+    
+    \ganttset{bar/.append style={fill=blue!20}}
+    \ganttbar{\textit{1.0 Level Release}}{23}{31} \\
+    \ganttset{bar/.append style={fill=blue!10}}
+    \ganttbar{\textit{Final Report}}{32}{34}
+    
+    % pointers
+    \ganttlink{elem7}{elem8}
+    \ganttlink{elem8}{elem10}
+    \ganttlink{elem10}{elem11}
+\end{ganttchart}
+\end{frame}
+
+\end{document}

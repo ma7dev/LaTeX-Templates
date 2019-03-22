@@ -1,0 +1,131 @@
+\documentclass{article}
+\usepackage[cm]{fullpage}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+
+\hypersetup{breaklinks=true,%
+colorlinks=true,%
+linkcolor=cyan,%
+urlcolor=MyDarkBlue}
+
+\definecolor{MyDarkBlue}{rgb}{0,0.0,0.45}
+
+%%%%%%%%%%%%%^{}%
+% Formatting parameters  %
+%%%%%%%%%%%%%%
+
+\newlength{\tabin}
+\setlength{\tabin}{1em}
+\newlength{\secsep}
+\setlength{\secsep}{0.1cm}
+
+\setlength{\parindent}{0in}
+\setlength{\parskip}{0in}
+\setlength{\itemsep}{0in}
+\setlength{\topsep}{0in}
+\setlength{\tabcolsep}{0in}
+
+\definecolor{contactgray}{gray}{0.3}
+\pagestyle{empty}
+
+%%%%%%%%%%%%%
+%  Template Definitions %
+%%%%%%%%%%%%%
+
+\newcommand{\lineunder}{\vspace*{-8pt} \\ \hspace*{-6pt} \hrulefill \\ \vspace*{-15pt}}
+\newcommand{\name}[1]{\begin{center}\textsc{\Huge#1}\\\end{center}}
+\newcommand{\contact}[1]{\begin{center}\color{contactgray}{\small#1}\end{center}}
+
+\newenvironment{tabbedsection}[1]{
+  \begin{list}{}{
+      \setlength{\itemsep}{0pt}
+      \setlength{\labelsep}{0pt}
+      \setlength{\labelwidth}{0pt}
+      \setlength{\leftmargin}{\tabin}
+      \setlength{\rightmargin}{\tabin}
+      \setlength{\listparindent}{0pt}
+      \setlength{\parsep}{0pt}
+      \setlength{\parskip}{0pt}
+      \setlength{\partopsep}{0pt}
+      \setlength{\topsep}{#1}
+    }
+  \item[]
+}{\end{list}}
+
+\newenvironment{nospacetabbing}{
+    \begin{tabbing}
+}{\end{tabbing}\vspace{-15px}}
+
+\newenvironment{resume_header}{}{\vspace{0pt}}
+
+
+\newenvironment{resume_section}[1]{
+\begin{minipage}{\textwidth}
+  \textsc{\large#1}
+  \lineunder
+  \end{minipage}
+  \begin{tabbedsection}{\secsep}
+}{\end{tabbedsection} \hfill \break \vspace{-9px}}
+
+\newenvironment{resume_subsection}[3][]{\vspace{0px}
+\begin{minipage}{\textwidth}
+  \textbf{#2} \hfill {\footnotesize #1} \hspace{2em} \\
+  \indent {\small \url{#3}}
+  \begin{tabbedsection}{0pt}
+}{\end{tabbedsection}\end{minipage}}
+
+\newenvironment{resume_education}[7][]{
+\vspace{-9px}
+\begin{minipage}{\textwidth}
+  \textbf{#2} \textit{#5} \hfill {\footnotesize #3 (#4)} \\
+  \textrm{#6 (#7).}
+  \begin{tabbedsection}{0pt}
+}{\end{tabbedsection}\end{minipage}}
+
+\newenvironment{subitems}{
+  \renewcommand{\labelitemi}{\textbullet}
+  \begin{itemize}
+      \setlength{\labelsep}{1em}
+}{\end{itemize}}
+
+\newenvironment{resume_employer}[4]{
+\vspace{0px}
+\begin{minipage}{\textwidth}
+  \vspace{\secsep}
+  \textbf{#1}\hfill {\footnotesize#3 (#4)} \\ 
+  \indent {\small \textit{ #2}}
+  \begin{tabbedsection}{0pt}
+  \begin{subitems}
+}{\end{subitems}\end{tabbedsection}\end{minipage}}
+
+
+
+% ------------- Header Information ------------- 
+\def \Name{John Doe}
+\def \Email{johndoe@email.com}
+\def \TelephoneNumber{+1 (234) 567 - 8910}
+\def \Website{johndoe@email.com}
+% ---------------------------------------------- 
+
+%%%%%%%%%%%%%
+%     Start Document     %
+%%%%%%%%%%%%%
+
+\begin{document}
+\begin{minipage}[t][0pt]{\linewidth}
+%%%%%%%%%
+%     Header     %
+%%%%%%%%%
+\begin{resume_header}
+\name{\Name{}}
+\contact{ Email: \href{mailto:\Email{}}{\Email{}} \hspace{2cm} Tel: \TelephoneNumber{} \hspace{2cm} Homepage: \href{\Website{}}{\Website{}}}
+\end{resume_header}
+\vspace{-7px}
+\input{1.education}
+\input{2.experience}
+\input{3.skills}
+\input{4.projects}
+\input{5.activities}
+\end{minipage}
+\end{document}

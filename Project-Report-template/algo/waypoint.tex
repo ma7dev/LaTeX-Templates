@@ -1,0 +1,56 @@
+
+\Procedure{FindNextWaypoint}{}
+  \Input
+      \Desc{$map$:}{The current occupancy grid}
+      \Desc{$window\_size$:}{Width of the sliding window used to generate candidate points}
+      \Desc{$stride\_length$:}{Row much to shift the sliding window with each iteration}
+      \Desc{$visited\_locations$:}{Grid with same size as map representing the locations we have been to}
+      \Desc{$robot\_loc$:}{Currently location of the robot}
+      \Desc{$avoidance\_radius$:}{Radius around candidate waypoint that should not contain walls}
+      \Desc{$empty\_radius$:}{Radius around candidate waypoint that should be empty}
+      \Desc{$RESOLUTION$:}{How many meters per cell}
+  \EndInput
+  \Output
+      \Desc{$candidate$}{The best potential waypoint to go to next}
+  \EndOutput
+
+\State $potential\_candidates \gets \text{[]}$
+
+\For{\textbf{every} $center\_cell \textbf{ in } map \textbf{ that is greater than } stride\_length$ \textbf{apart from each other}}
+    % if the center and the surrounding cells are not empty:
+    %   continue
+    \State $skip \gets false$
+    \For{\textbf{every} $neighbor\_cell$\textbf{ in a }$avoidance\_radius$\textbf{ away from }$center\_cell$}
+        \If {alreadyVisited($visited\_location$, $neighbor\_cell$)}
+            \State $skip \gets true$
+            \State \textbf{break}
+        \EndIf
+    \EndFor
+    \If {$skip == true$}
+        \State \textbf{continue}
+    \EndIf
+    \For{\textbf{every} $neighbor\_cell$\textbf{ in a }$empty\_radius$\textbf{ away from }$center\_cell$}
+        \If {getMapValue($visited\_location$) $\neq$ $0$}
+            \State $skip \gets true$
+            \State \textbf{break}
+        \EndIf
+    \EndFor
+    \If {$skip == true$}
+        \State \textbf{continue}
+    \EndIf
+    
+    \State $cell\_sum \gets \text{sum(all cells within } window\_size/2 \text{ from } center\_cell \text{)}$
+	
+	\State $potential\_candidates\text{.append(}center\_cell\text{)}$
+\EndFor
+
+\State $candidate \gets \text{sorted(}potential\_candidates\text{)} $
+\State $candidate \gets  potential\_candidates\text{.pop()} $
+\While{$\textbf{not } \text{reachableByAStar(} robot\_loc, candidate\text{)}$}
+    \State $candidate \gets  potential\_candidates\text{.pop()} $
+    \State $best\_loc=candidate$
+\EndWhile
+
+\State \textbf{return} convert\_row\_col\_to\_coord($best\_loc$, $RESOLUTION$, $map$)
+
+\EndProcedure
